@@ -23,7 +23,7 @@ def init(inputParam):
 
     if len(inputParam) < 2:
         print "\nNot enough arguments (%i)" % len(inputParam)
-        print "Usage: synchronize.py <folder>"
+        print "Usage: combiner.py <folder>"
         print "<folder> needs subfolders: Annotations with .xml and JPEGImages .JPEG"
         print "exit"
         sys.exit()
@@ -78,7 +78,3 @@ writeToTxt(outputDir + "val.txt", testData)
 pathTest = path + "*/ImageSets/trainval.txt"
 testData = readTxtFilesAndShuffle(pathTest)
 writeToTxt(outputDir + "trainval.txt", testData)
-
-# fileTest = open(outputDir + "test.txt", 'w+')
-# fileTest.write("\n")
-# fileTest.close()
