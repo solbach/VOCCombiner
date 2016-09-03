@@ -48,13 +48,31 @@ init(sys.argv)
 path = str(sys.argv[1])
 outputDir = path + "ImageSets/"
 
+if not os.path.exists(outputDir):
+        os.makedirs(outputDir)
+
 # Combine test.txt files
 pathTest = path + "*/ImageSets/test.txt"
 txtFilesTest = glob.glob(pathTest)
+testData = []
+for files in txtFilesTest:
+    with open(files, 'r') as myfile:
+        fileRead = myfile.read()
+        testData = testData + fileRead.split("\n")
+
+random.shuffle(testData)
+fileTest = open(outputDir + "test.txt", 'w+')
+count = 0
+for item in testData:
+    count = count + 1
+    if count < len(testData):
+        fileTest.write("%s\n" % item)
+    else:
+        fileTest.write("%s" % item)
 
 
-
-print txtFilesTest
+print testData
+print len(testData)
 
 # fileTest = open(outputDir + "test.txt", 'w+')
 
