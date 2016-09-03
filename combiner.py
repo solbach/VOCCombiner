@@ -24,7 +24,7 @@ def init(inputParam):
     if len(inputParam) < 2:
         print "\nNot enough arguments (%i)" % len(inputParam)
         print "Usage: combiner.py <folder>"
-        print "<folder> needs subfolders: Annotations with .xml and JPEGImages .JPEG"
+        print "<folder> needs sub-subfolders: Annotations with .xml and JPEGImages .JPEG"
         print "exit"
         sys.exit()
     return
