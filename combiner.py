@@ -14,14 +14,6 @@ import random
 # of all subfolders
 ######################
 
-
-def checkPath(path):
-    if not os.path.isdir(path):
-        print ">> " + path + " <<" + " does not exist."
-        print "exit"
-        sys.exit()
-    return
-
 def init(inputParam):
     print "\n##############"
     print "Pascal VOC style DATA-SET COMBINER"
@@ -37,10 +29,26 @@ def init(inputParam):
         sys.exit()
     return
 
-def createDirs(outputDir):
-    # Create directories
-    if not os.path.exists(outputDir):
-        os.makedirs(outputDir)
+def readTxtFilesAndShuffle(pathTest):
+    txtFilesTest = glob.glob(pathTest)
+    testData = []
+    for files in txtFilesTest:
+        with open(files, 'r') as myfile:
+            fileRead = myfile.read()
+            testData = testData + fileRead.split("\n")
+    random.shuffle(testData)
+    return testData
+
+
+def writeToTxt(filePath, data):
+    fileTest = open(filePath, 'w+')
+    count = 0
+    for item in data:
+        count = count + 1
+        if count < len(data):
+            fileTest.write("%s\n" % item)
+        else:
+            fileTest.write("%s" % item)
 
 ################## Main
 
@@ -53,29 +61,24 @@ if not os.path.exists(outputDir):
 
 # Combine test.txt files
 pathTest = path + "*/ImageSets/test.txt"
-txtFilesTest = glob.glob(pathTest)
-testData = []
-for files in txtFilesTest:
-    with open(files, 'r') as myfile:
-        fileRead = myfile.read()
-        testData = testData + fileRead.split("\n")
+testData = readTxtFilesAndShuffle(pathTest)
+writeToTxt(outputDir + "test.txt", testData)
 
-random.shuffle(testData)
-fileTest = open(outputDir + "test.txt", 'w+')
-count = 0
-for item in testData:
-    count = count + 1
-    if count < len(testData):
-        fileTest.write("%s\n" % item)
-    else:
-        fileTest.write("%s" % item)
+# Combine train.txt files
+pathTest = path + "*/ImageSets/train.txt"
+testData = readTxtFilesAndShuffle(pathTest)
+writeToTxt(outputDir + "train.txt", testData)
 
+# Combine val.txt files
+pathTest = path + "*/ImageSets/val.txt"
+testData = readTxtFilesAndShuffle(pathTest)
+writeToTxt(outputDir + "val.txt", testData)
 
-print testData
-print len(testData)
+# Combine trainval.txt files
+pathTest = path + "*/ImageSets/trainval.txt"
+testData = readTxtFilesAndShuffle(pathTest)
+writeToTxt(outputDir + "trainval.txt", testData)
 
 # fileTest = open(outputDir + "test.txt", 'w+')
-
 # fileTest.write("\n")
-
 # fileTest.close()
